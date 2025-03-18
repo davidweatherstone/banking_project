@@ -1,0 +1,60 @@
+version: 2
+
+sources:
+  - name: banking
+    description: a list of clients
+    database: banking
+    schema: raw
+
+    tables:
+      - name: clients
+        description: Raw client data
+        columns:
+          - name: client_id
+            description: Primary key for client
+            tests:
+              - not_null
+          - name: name
+            description: Name of client
+            tests:
+              - not_null
+          - name: date_of_birth
+            description: Date of birht for client
+            tests:
+              - not_null
+          - name: address
+            description: Address of client
+            tests:
+              - not_null
+          - name: create_date
+            description: Date client was created
+            tests:
+              - not_null
+          - name: close_date
+            description: Date client closed last account
+          - name: load_date
+            description: Date data was loaded from source system
+
+      - name: accounts
+        description: Raw account data
+        columns:
+          - name: account_id
+            description: Primary key for account
+            tests:
+              - not_null
+          - name: client_id
+            description: Client attached to account
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('clients_snapshot')
+                  field: client_id
+          - name: account_type
+            description: Type of account
+            tests:
+              - accepted_values:
+                  values: ["Current", "SIPP", "GIA", "ISA", "Personal Pension"]
+          - name: create_date
+            description: Date the account was created
+          - name: close_date
+            description: Date the account was closed

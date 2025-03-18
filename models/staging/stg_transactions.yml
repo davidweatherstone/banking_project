@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: One unique transaction per row
+    columns: 
+      - name: transaction_id
+        description: primary key for transactions
+        tests:
+          - unique
+          - not_null
+      - name: account_id
+        description: Account Id
+        tests:
+          - relationships:
+              to: ref('accounts_snapshot')
+              field: 'account_id'
+      - name: transaction_type
+        description: Type of transaction
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["Contribution", "Withdrawal", "Fee"]
+      - name: gross_transaction_amount
+        tests:
+          - not_null
+        description: Transaction amount
+      - name: transaction_date
+        description: Date the transaction took place
+        tests:
+          - not_null

@@ -16,7 +16,7 @@ DateSpine as(
 )
 
 SELECT 
-    DATE_DAY AS TheDate,
+    DATE_DAY::date AS TheDate,
     DATE_TRUNC('month', DATE_DAY) + INTERVAL '1 month' - INTERVAL '1 day' AS TheEndOfTheMonth,
     DATE_TRUNC('month', DATE_DAY) AS TheStartOfTheMonth,
     EXTRACT(DAY FROM DATE_DAY) AS TheDayOfTheMonth,

@@ -10,6 +10,12 @@
     )
 }}
 
+with latest_clients as (
+    select *
+    from {{ source('banking', 'clients') }}
+    where load_date = (select max(load_date) from {{ source('banking', 'clients') }})
+)
+
 select
     client_id
     ,name
@@ -17,6 +23,6 @@ select
     ,address
     ,create_date
     ,close_date
-from {{ source('banking', 'clients') }}
+from latest_clients
 
 {% endsnapshot %}
